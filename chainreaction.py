@@ -29,7 +29,7 @@ class board:
         for b in board.box_list:
             temp = map(temp_f,b.surrounding)
             b.surrounding = list(temp)
-        self.print_surr()
+
 
     def print_max(self): # prints the maximum allowable atoms in each box
         for r in range(0,self.rows):
@@ -133,3 +133,5 @@ print()
 a.print_max()
 print()
 a.print_holding()
+print()
+a.print_surr()
