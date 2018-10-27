@@ -1,0 +1,117 @@
+
+Chain reaction flowgraph
+
+a basic flowgraph doesnt talk anything of more detailed implementation specifics
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+1-> Classes
+
+-Box class
+    constants
+        surrounding
+        its location
+        main_board it is connected to
+
+    variables:
+        the no of atoms
+        their color
+        and some more
+
+    functions:
+        explode -- will create an animation with direction vector and destination cooridnates
+                   to each surrounding box it holds ( more , see working design)
+        add_event -- adds an atom to holding if gone above max then explode
+        update - goes through the event list and updates ( see working design)
+        and more
+
+    event_list:
+      this is basically a list which holds data of received events from animation(look at animation class)
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+-Board class
+    constants
+        number of rows
+        number of cols
+        the box_list
+
+    variables:
+        the animation list ( see working design)
+        and more
+
+    functions:
+        add animation
+        remove animation ( see working design)
+        update - updates the current animation
+        and more
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+-Animation class
+    constants
+        direction vector : this is a unit vector pointing in direction
+                            of the surrounding box from the sender box
+
+        color : color of the atom
+        destination box : the destination where the atom is travelling
+        and more
+
+    variables:
+        speed : holds speed of atom
+                the speed can increase as something happens ( more , see working design)
+
+        atom location : holds the current location of atom, when it matches with
+                        destination box location then sends an event to destination
+                        box (look at working design)
+
+    functions:
+        after completion event -> sends an event to the destination box
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+2-> Working design
+
+    -box->explode
+      it creates a new animation instance which will have the direction vector and
+      destination of the box
+      for example if a box in the middle is clicked then four animations will be made
+      and so on
+      explode sets holding to 0
+
+
+    -board->animation list
+      the very dynamic list which holds the current running animations
+      as the game loop is run each animation in this list is updated
+
+
+    -board->remove animation:
+      when the animation completes first it sends an event to the receiving box
+      then it calls this function with location index of itself to this function which will
+      remove the animation from the list and delete it
+
+
+    -animation working
+      when box explodes it constructs a animation which will have a direction vector
+      to the receiver and then the color of the sender which will be passed on the
+      receiver
+      the speed can be varied like more collisons the greater the speed or something
+      the postion of the atom will be updated by multiplying speed with direction vector and then translating position by this vector
+      thereby making it possble to dynamically vary speed ,not required but still
+
+
+     -box->update
+        goes through the event list
+        when animation ends this will put the event on this list and then box will read it
+
+        this list will always/probably(unless some magic happens) have only one event at max,it just acts like
+        a buffer between cycles therby avoiding recursion completely
+        and makes it possible to sychronize animations in parallel
+        (sorry for being too technical)
+
+        when there is a event it will add the holding value
+        and then if holding exceeded max then explode
+        inherits the color of the received atom
+        and then removes the event from the list
