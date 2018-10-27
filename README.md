@@ -1,5 +1,3 @@
-#Chain Reaction
-
 # Chain Reaction
 A port of the android game chain reaction
 
