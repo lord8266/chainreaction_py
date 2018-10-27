@@ -1,5 +1,3 @@
-#Chain Reaction
-
 # Chain Reaction
 A port of the android game chain reaction
 
@@ -19,4 +17,4 @@ As soon as a player looses all their orbs they are out of the game.
 
 ### Not even started
 
-      look at docs.txt for more info
+    look at docs.txt for more info
