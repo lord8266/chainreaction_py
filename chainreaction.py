@@ -23,12 +23,33 @@ class board:
       # like surrounding for 1,1 would include 2,1 which hasnt been made
       # so first store the surrounding data in tuples and then convert them into boxes
       # look at the setup function
-        temp_f = lambda t : board.box_list[t[0]*self.rows+t[1]]
+        temp_f = lambda t : board.box_list[t[0]*self.cols+t[1]]
      # returns the postion of (row,col)th box in box_list and replaces the tuple with the box reference in surrounding
 
         for b in board.box_list:
             temp = map(temp_f,b.surrounding)
             b.surrounding = list(temp)
+        self.print_surr()
+
+    def print_max(self): # prints the maximum allowable atoms in each box
+        for r in range(0,self.rows):
+            for c in range(0,self.cols):
+                print(board.box_list[r*self.cols+c].max," " ,end="")
+
+            print()
+
+    def print_surr(self): # prints the surrounding elements of all boxes
+        for b in board.box_list:
+            print("( %d %d )"%(b.row,b.col),"surr",[(temp.row,temp.col) for temp in b.surrounding])
+            # creates a list with tuples for row,col of each box
+
+    def print_holding(self): # prints the current holding of all boxes
+        for r in range(0,self.rows):
+            for c in range(0,self.cols):
+                print(board.box_list[r*self.cols+c].holding," " ,end="")
+
+            print()
+
 
 #------------------------------------------------------------------------------------------------
 
@@ -106,5 +127,9 @@ class box:
 
 #------------------------------------------------------------------------------------------------
 
-a=board(5,5)
+a=board(10,10)
 a.make_boxes()
+print()
+a.print_max()
+print()
+a.print_holding()
