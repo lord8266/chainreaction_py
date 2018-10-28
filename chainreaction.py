@@ -8,7 +8,7 @@ class board:
         self.cols =columns
         board.box_list =[]
 
-    def make_boxes(self):
+    def make_boxes(self): 
 
         for r in range(0,self.rows):
             for c in range(0,self.cols):
