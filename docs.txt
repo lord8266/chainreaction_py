@@ -106,7 +106,7 @@ a basic flowgraph doesnt talk anything of more detailed implementation specifics
         goes through the event list
         when animation ends this will put the event on this list and then box will read it
 
-        this list will always/probably(unless some magic happens) have only one event at max,it just acts like
+        this list just acts like
         a buffer between cycles therby avoiding recursion completely
         and makes it possible to sychronize animations in parallel
         (sorry for being too technical)
