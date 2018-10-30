@@ -4,7 +4,7 @@
 from board import board
 
 
-# im importing the class itself
+# im importing the class itself 
 # so i dont have to say board.board .
 
 #------------------------------------------------------------------------------------------------

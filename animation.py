@@ -1,8 +1,8 @@
 class animation:
     multiplier = 1 # this is for the pygame part
     # i will explain this later
-    
-    def __init__(self,box_from,box_to,speed):
+
+    def __init__(self,box_from,box_to,speed): 
         animation.main_board = box_from.main_board # get the main board object
         self.direction = animation.create_vector(box_from,box_to)
         # note that the vector will always be a unit vector since any surrounding box

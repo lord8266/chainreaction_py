@@ -13,7 +13,7 @@ As soon as a player looses all their orbs they are out of the game.
 
 ###
 
-## Status
+## Status 
 
 ### Not even started
 

@@ -1,7 +1,7 @@
 
 # the board class ----------------------------------------
 from box import box
-from animation import animation
+from animation import animation 
 
 class board:
     #construct with rows ,cols and initialize box_list to empty list

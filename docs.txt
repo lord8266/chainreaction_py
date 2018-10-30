@@ -77,7 +77,7 @@ a basic flowgraph doesnt talk anything of more detailed implementation specifics
     -box->explode
       it creates a new animation instance which will have the direction vector and
       destination of the box
-      for example if a box in the middle is clicked then four animations will be made
+      for example if a box in the middle is clicked then four animations will be made 
       and so on
       explode sets holding to 0
 

@@ -2,7 +2,7 @@
 # the board class ----------------------------------------
 
 from animation import animation
-
+ 
 class box:
     def __init__(self,main_board):
         box.main_board = main_board
