@@ -1,5 +1,5 @@
 # Chain Reaction
-A port of the android game chain reaction
+A port of the android game chain reaction  
 Python end semster project 
 ###
 
