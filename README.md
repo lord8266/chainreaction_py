@@ -1,6 +1,5 @@
 # Chain Reaction
 A port of the android game chain reaction  
-Python end semster project
 ###
 
 The objective of Chain Reaction is to take control of the board by eliminating your opponents' orbs.
