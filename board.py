@@ -6,8 +6,10 @@ from animation import animation
 class board:
     #construct with rows ,cols and initialize box_list to empty list
     def __init__(self,data):
+        board.data =data
         board.rows= data["rows"]
         board.cols =data["cols"]
+        board.speed = data["speed"]
         board.multiplier = data["multiplier"]
         animation.multiplier = board.multiplier
         board.box_list =[]
@@ -67,19 +69,21 @@ class board:
         self.check_change()
 
     def update(self):
+        self.running = False
         if board.remove_cycle: # if there are animations to be removed
         # then remove them
             self.remove_all()
 
         for b in self.box_list: # for all the boxes
-            b.update() # update events in all boxes
+            if b.update(): # update events in all boxes
+                self.running =True  # this variable will be needed for pygame
+                #to check if all boxes are in idle state
 
         for a in self.animations:# for each animation in animations
             a.update() # update animations
 
-        self.running = bool(self.animations) # this variable will be needed for pygame
-        # if there are no animations running then the game state can be checked
-        # more on this later
+
+
 
 
     def remove_animation(self,anim):
