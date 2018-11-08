@@ -2,7 +2,7 @@
 # the board class ----------------------------------------
 
 from animation import animation
- 
+
 class box:
     def __init__(self,main_board):
         box.main_board = main_board
@@ -78,7 +78,9 @@ class box:
             self.max=4
 
     def update(self):
+        ret = False
         if self.events:
+            ret =True
             temp =self.events[0] # check only first event in one cycle
             #temp.add(self) # add this box to owners list
             #self.owner = temp.box_from.owner # take the owner
@@ -89,6 +91,7 @@ class box:
             self.events.pop(0) # pop the first event which came
             # if there are more then handle them in the next cycle
             # not required but i want to do one step at a time
+        return ret
 
     def add_atom(self):
         self.holding+=1 # increment holding
@@ -100,7 +103,7 @@ class box:
         self.holding =0 #reset box
         #self.owner.remove(self) # remove this box from the owner
         for b in self.surrounding:
-            box.main_board.animations.add(animation(self,b,1)) # here need to create animation
+            box.main_board.animations.add(animation(self,b,self.main_board.speed)) # here need to create animation
         #self.owner =None
         self.color = None # just to complete
         # color of the box is reset just syas it has no color

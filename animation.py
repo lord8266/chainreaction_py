@@ -14,6 +14,7 @@ class animation:
 
         self.curr_loc = {"x":box_from.col*animation.multiplier,"y":box_from.row*animation.multiplier} # start from that location
         self.dest = {"x":box_to.col*animation.multiplier,"y":box_to.row*animation.multiplier}
+
         # row is the y component col is the x component
         # this is similar to the fourth quadrant but only y value increases as you go down
         # like 0,0 at origin 0,5 at the bottom of fourth quad  5,0 at the end of x axis (this doesnt change)
@@ -30,14 +31,13 @@ class animation:
         # displaces position by velocity vector
         # since speed is 1 it is the same as the direction vector
         self.curr_loc['y']+=self.direction['y']*self.speed # move the atom along the position
-
         self.check_completion() # if completed add this animation to the remove cycle
 
     def check_completion(self):
         # if dot product of current pos along direction is greater than that of destination along direction
         # then the atom has reached destination
 
-        if animation.dot(self.direction,self.curr_loc)>=animation.dot(self.direction,self.curr_loc):
+        if animation.dot(self.direction,self.curr_loc)>=animation.dot(self.direction,self.dest):
             self.completion_event()
 
     def completion_event(self):

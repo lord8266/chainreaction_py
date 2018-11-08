@@ -1,6 +1,5 @@
 # Chain Reaction
-A port of the android game chain reaction
-
+A port of the android game chain reaction  
 ###
 
 The objective of Chain Reaction is to take control of the board by eliminating your opponents' orbs.
@@ -13,8 +12,8 @@ As soon as a player looses all their orbs they are out of the game.
 
 ###
 
-## Status 
+## Status
 
-### Not even started
-
-    look at docs.txt for more info
+### Completed Event Handling
+*receives events from window*    
+and prints them to **stdout**
