@@ -1,20 +1,24 @@
 
 # the board class ----------------------------------------
 from box import box
-from animation import animation 
+from animation import animation
 
 class board:
     #construct with rows ,cols and initialize box_list to empty list
-    def __init__(self,rows,columns):
-        self.rows= rows
-        self.cols =columns
+    def __init__(self,data):
+        board.rows= data["rows"]
+        board.cols =data["cols"]
+        board.multiplier = data["multiplier"]
+        animation.multiplier = board.multiplier
         board.box_list =[]
         board.animations = set() # it is a set
         board.remove_cycle=set()
+        board.previous = False
+        self.make_boxes()
     def make_boxes(self):
 
-        for r in range(0,self.rows):
-            for c in range(0,self.cols):
+        for r in range(0,board.rows):
+            for c in range(0,board.cols):
                 #for each box first contruct box with board object reference
                 temp = box(self) # self is the board instance
                 # look at setup in box
@@ -26,7 +30,7 @@ class board:
       # like surrounding for 1,1 would include 2,1 which hasnt been made
       # so first store the surrounding data in tuples and then convert them into boxes
       # look at the setup function
-        temp_f = lambda t : board.box_list[t[0]*self.cols+t[1]]
+        temp_f = lambda t : board.box_list[t[0]*board.cols+t[1]]
      # returns the postion of (row,col)th box in box_list and replaces the tuple with the box reference in surrounding
 
         for b in board.box_list:
@@ -35,9 +39,9 @@ class board:
 
 
     def print_max(self): # prints the maximum allowable atoms in each box
-        for r in range(0,self.rows):
-            for c in range(0,self.cols):
-                print(board.box_list[r*self.cols+c].max," " ,end="")
+        for r in range(0,board.rows):
+            for c in range(0,board.cols):
+                print(board.box_list[r*board.cols+c].max," " ,end="")
 
             print()
 
@@ -47,11 +51,20 @@ class board:
             # creates a list with tuples for row,col of each box
 
     def print_holding(self): # prints the current holding of all boxes
-        for r in range(0,self.rows):
-            for c in range(0,self.cols):
-                print(board.box_list[r*self.cols+c].holding,end=" ")
+        print()
+        for r in range(0,board.rows):
+            for c in range(0,board.cols):
+                print(board.box_list[r*board.cols+c].holding,end=" ")
 
             print()
+        print()
+    def check_change(self):
+        if self.previous!=self.running:
+            self.print_holding()
+            self.previous=self.running
+    def run(self):
+        self.update()
+        self.check_change()
 
     def update(self):
         if board.remove_cycle: # if there are animations to be removed
@@ -81,8 +94,6 @@ class board:
         for a in board.remove_cycle:
             self.animations.discard(a) # remove animation from animations
 
-            print("discard: " ,a) # for debug only not required by the game
-            print("discarded data:" , "from pos",a.box_from.pos,"to pos",a.box_to.pos,"\n" )
 
         board.remove_cycle.clear()
         #clear the remove_cycle as all to be removed animations have been removed
