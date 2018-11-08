@@ -4,7 +4,9 @@
 from board import board
 import pygame
 
-data = {"rows":3,"cols":5,"multiplier":80}
+data = {"rows":6,"cols":6,"multiplier":100}
+# no of rows ,cols and the multiplier says the size of each box
+# each box is a square
 
 pygame.init()
 w1 = pygame.display.set_mode((data["cols"]*data["multiplier"],data["rows"]*data["multiplier"]))
