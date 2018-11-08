@@ -2,43 +2,31 @@
 # doesnt do anything as of now just sets up the boxes and connecting surrounding
 
 from board import board
+import pygame
 
+data = {"rows":3,"cols":5,"multiplier":80}
 
-# im importing the class itself 
-# so i dont have to say board.board .
+pygame.init()
+w1 = pygame.display.set_mode((data["cols"]*data["multiplier"],data["rows"]*data["multiplier"]))
+clock = pygame.time.Clock()
 
-#------------------------------------------------------------------------------------------------
-
-a=board(5,5)
-a.make_boxes()
+game = board(data)
 
 print("start\n")
 
-# this is not how things will happen in the real game
-# just for demonstration
-a.print_holding()
-print()
-a.add_atom(0)
-a.add_atom(0) # the box will explode here
+running =True
 
-a.update()
-a.update() # im calling update again and again
-# this will be in a loop and this update will be called again and again there
-# if the game is running at 60fps
-# then update is called 60 times a second
-a.print_holding()
-print()
+def event_handle(pos):
+    id = pos[0]//data["multiplier"] +data["cols"]*(pos[1]//data["multiplier"])
+    game.add_atom(id)
+    game.print_holding()
 
-a.add_atom(1)
-a.add_atom(5)
-a.add_atom(0)
-a.update() # need to call only once here since so animations
+while running:
+    for e in pygame.event.get():
+        if e.type==pygame.QUIT:
+            running=False
+        elif e.type==pygame.MOUSEBUTTONDOWN:
+            event_handle(e.pos)
+    game.run()
 
-a.print_holding()
-print()
-
-a.add_atom(5)
-
-for i in range(5):
-    a.update()
-a.print_holding()
+pygame.quit()
