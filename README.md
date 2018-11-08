@@ -16,4 +16,6 @@ As soon as a player looses all their orbs they are out of the game.
 
 ### Completed Event Handling
 *receives events from window*    
-and prints them to **stdout**
+and prints them to **stdout**  
+run `python3 chainreaction.py`
+
