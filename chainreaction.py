@@ -4,7 +4,7 @@
 from board import board
 import pygame
 
-data = {"rows":2,"cols":5,"multiplier":80}
+data = {"rows":3,"cols":5,"multiplier":80}
 
 pygame.init()
 w1 = pygame.display.set_mode((data["cols"]*data["multiplier"],data["rows"]*data["multiplier"]))
@@ -17,9 +17,7 @@ print("start\n")
 running =True
 
 def event_handle(pos):
-    print()
     id = pos[0]//data["multiplier"] +data["cols"]*(pos[1]//data["multiplier"])
-    print(id)
     game.add_atom(id)
     game.print_holding()
 
