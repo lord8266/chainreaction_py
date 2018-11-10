@@ -8,7 +8,7 @@ data = {
     "title":"chainreaction2d"
 }
 
-players = [
+players = [# added random colors
            {"name":"red","color":(255,0,0)},
            {"name":"blue","color":(0,0,255)},
            {"name":"green","color":(0,255,0)},

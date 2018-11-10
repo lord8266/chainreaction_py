@@ -5,7 +5,7 @@ from board import board
 import pygame
 import conf
 data=conf.data
-
+# look at conf.py
 
 # no of rows ,cols and the multiplier says the size of each box
 # each box is a square
