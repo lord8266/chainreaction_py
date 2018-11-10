@@ -5,7 +5,7 @@ class player:
         self.main_board=main_board
         self.name=data["name"]
         self.color=data["color"]
-        player.change_color(main_board.img[0],(0,0,0))
+        player.change_color(main_board.img[0],data["color"])
         self.img = [player.change_color(i,self.color) for i in main_board.img]
         self.grid = player.change_color(main_board.grid,data["color"])
         self.boxes =[]

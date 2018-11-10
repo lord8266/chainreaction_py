@@ -11,7 +11,7 @@ class box:
         self.events = []
         self.holding=0
         self.angle=0
-
+        self.owner=None
         self.rotate_dir= random.choice([1,-1])
         self.speed =random.randrange(6,9)
     def setup(self,row,col):
@@ -90,6 +90,9 @@ class box:
             #temp.add(self) # add this box to owners list
             #self.owner = temp.box_from.owner # take the owner
             self.color = temp.box_from.color
+            if self.owner!=None:
+                self.owner.rem_box(self)
+            temp.owner.add_box(self)
             #self.owner.add_box(self) # add this box to owner
             self.add_atom() # add the atom in the box
 
@@ -102,8 +105,8 @@ class box:
         return ret
 
     def render(self):
-        if(self.holding):
-            main_img = box.main_board.img[self.holding-1]
+        if(self.owner!=None):
+            main_img = self.owner.img[self.holding-1]
             img = pygame.transform.rotate(main_img,self.angle)
             rect1,rect2 =img.get_rect(),main_img.get_rect()
             w1=box.main_board.w1
@@ -123,6 +126,6 @@ class box:
         #self.owner.remove(self) # remove this box from the owner
         for b in self.surrounding:
             box.main_board.animations.add(animation(self,b,self.main_board.speed)) # here need to create animation
-        #self.owner =None
+        self.owner.rem_box(self)
         self.color = None # just to complete
         # color of the box is reset just syas it has no color

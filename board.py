@@ -3,6 +3,7 @@
 from box import box
 from animation import animation
 import pygame
+import player
 
 class board:
     #construct with rows ,cols and initialize box_list to empty list
@@ -13,6 +14,7 @@ class board:
         board.cols =data["cols"]
         board.speed = data["speed"]
         board.multiplier = data["multiplier"]
+        board.img_loc = data["img_loc"]
         animation.multiplier = board.multiplier
         board.w1 = data["w1"]
         board.box_list =[]
@@ -21,6 +23,10 @@ class board:
         board.previous = False
         board.make_image()
         self.make_boxes()
+        board.players = [ player.player(self,p) for p in data["players"] ]
+
+        board.current = board.players[0]
+        self.count=0
     def make_boxes(self):
 
         for r in range(0,board.rows):
@@ -53,7 +59,7 @@ class board:
 
     def make_image():
         board.img=[]
-        img_main = pygame.image.load('assets/atoms.png')
+        img_main = pygame.image.load(board.img_loc)
 
         img=img_main.subsurface(0,0,200,200).convert_alpha()
         img=pygame.transform.scale(img,(board.multiplier,board.multiplier))
@@ -75,7 +81,7 @@ class board:
     def make_grid():
         w = board.cols*board.multiplier
         h =board.rows*board.multiplier
-        board.grid = pygame.Surface((w,h))
+        board.grid = pygame.Surface((w,h),pygame.SRCALPHA)
         for v_l in range(0,w,board.multiplier):
             pygame.draw.line(board.grid,(255,255,255),(v_l,0),(v_l,h))
         for h_l in range(0,h,board.multiplier):
@@ -98,14 +104,38 @@ class board:
     def check_change(self):
         if self.previous!=self.running:
             self.print_holding()
+            self.run_check()
+            if self.running==0 and bool(self.animations)==0:
+                self.cycle()
+                print(self.count)
+
             self.previous=self.running
+
+    def run_check(self):
+        templ = self.players.copy()
+        for p in templ:
+            if len(p.boxes)==0:#if has no boxes
+                self.players.remove(p)
+        self.cycle(False)
+        if len(self.players)==1:
+            print(self.current.name,"wins")
+            self.main_running=False
+    def cycle(self,check=True):
+        if check:
+            self.count+=1
+        board.current=board.players[self.count%len(board.players)]
+
+
     def run(self):
         self.update()
         self.render()
         self.check_change()
 
     def render(self):
-        board.w1.blit(board.grid,(0,0))
+        if bool(board.animations):
+            board.w1.blit(board.grid,(0,0))
+        else:
+            board.w1.blit(board.current.grid,(0,0))
         for a in self.box_list:
             a.render()
         for a in self.animations:
@@ -124,7 +154,7 @@ class board:
 
         for a in self.animations:# for each animation in animations
             a.update() # update animations
-
+        self.accepting = bool(self.animations)
 
 
 
@@ -146,6 +176,20 @@ class board:
         #clear the remove_cycle as all to be removed animations have been removed
 
     def add_atom(self,index):
-        board.box_list[index].add_atom()
+        ret=True
+        temp_box = board.box_list[index]
+        if temp_box.owner!=None:
+            if temp_box.owner!=board.current:
+                pass
+                ret=False
+        else:
+            board.current.add_box(temp_box)
+
+        if ret:#if passed the filter
+            temp_box.add_atom()
+
+        if temp_box.holding==0:# if it exploded
+            ret=False
         # as of now im calling directly but then this will
         # be a much more complex function later
+        return ret
