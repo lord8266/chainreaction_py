@@ -6,10 +6,15 @@ from animation import animation
 class board:
     #construct with rows ,cols and initialize box_list to empty list
     def __init__(self,data):
+<<<<<<< HEAD
+        board.rows= data["rows"]
+        board.cols =data["cols"]
+=======
         board.data =data
         board.rows= data["rows"]
         board.cols =data["cols"]
         board.speed = data["speed"]
+>>>>>>> master
         board.multiplier = data["multiplier"]
         animation.multiplier = board.multiplier
         board.box_list =[]
