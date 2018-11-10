@@ -1,5 +1,5 @@
 
-
+import pygame
 class animation:
     #multiplier = 1 # this is for the pygame part
     # i will explain this later
@@ -22,6 +22,9 @@ class animation:
         self.box_from = box_from
         self.box_to = box_to
 
+    def render(self):
+        main_board=animation.main_board
+        main_board.w1.blit(main_board.img[3],(self.curr_loc["x"],self.curr_loc["y"]))
     def create_vector(b1,b2):
         temp_vec =  {'x':(b2.col-b1.col),'y':(b2.row-b1.row)} # create a direction vector
         return temp_vec

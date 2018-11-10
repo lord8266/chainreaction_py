@@ -2,25 +2,30 @@
 # the board class ----------------------------------------
 
 from animation import animation
-
+import pygame
+import random
 class box:
     def __init__(self,main_board):
         box.main_board = main_board
         self.surrounding = []
         self.events = []
         self.holding=0
+        self.angle=0
 
+        self.rotate_dir= random.choice([1,-1])
+        self.speed =random.randrange(6,9)
     def setup(self,row,col):
         # initialize current box row and col
         self.row = row
         self.col = col
-        self.pos = row,col
+        self.pos = [col*box.main_board.multiplier,row*box.main_board.multiplier]
         # conditions for determing the box surrounding locations
         # just some hardcoded stuff
         if col==0 and row==0:
             # surrounding box -> below ,front
             self.surrounding.append((row+1,col))
-            self.surrounding.append((row,col+1))
+            self.surrounding.append((row
+            ,col+1))
             self.max=2
 
         elif col==box.main_board.cols-1 and row==0:
@@ -91,7 +96,21 @@ class box:
             self.events.pop(0) # pop the first event which came
             # if there are more then handle them in the next cycle
             # not required but i want to do one step at a time
+        self.angle+=self.speed*self.rotate_dir
+        if abs(self.angle)==360:
+            self.angle=0
         return ret
+
+    def render(self):
+        if(self.holding):
+            main_img = box.main_board.img[self.holding-1]
+            img = pygame.transform.rotate(main_img,self.angle)
+            rect1,rect2 =img.get_rect(),main_img.get_rect()
+            w1=box.main_board.w1
+            loc = self.pos.copy()
+            loc[0]-=(rect1.width-rect2.width)/2
+            loc[1]-=(rect1.height-rect2.height)/2
+            w1.blit(img,loc)
 
     def add_atom(self):
         self.holding+=1 # increment holding

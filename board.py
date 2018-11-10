@@ -2,6 +2,7 @@
 # the board class ----------------------------------------
 from box import box
 from animation import animation
+import pygame
 
 class board:
     #construct with rows ,cols and initialize box_list to empty list
@@ -17,10 +18,12 @@ class board:
 >>>>>>> master
         board.multiplier = data["multiplier"]
         animation.multiplier = board.multiplier
+        board.w1 = data["w1"]
         board.box_list =[]
         board.animations = set() # it is a set
         board.remove_cycle=set()
         board.previous = False
+        board.make_image()
         self.make_boxes()
     def make_boxes(self):
 
@@ -52,6 +55,37 @@ class board:
 
             print()
 
+    def make_image():
+        board.img=[]
+        img_main = pygame.image.load('assets/atoms.png')
+
+        img=img_main.subsurface(0,0,200,200).convert_alpha()
+        img=pygame.transform.scale(img,(board.multiplier,board.multiplier))
+        board.img.append(img)
+
+        img=img_main.subsurface(200,0,200,200).convert_alpha()
+        img=pygame.transform.scale(img,(board.multiplier,board.multiplier))
+        board.img.append(img)
+
+        img=img_main.subsurface(0,200,200,200).convert_alpha()
+        img=pygame.transform.scale(img,(board.multiplier,board.multiplier))
+        board.img.append(img)
+
+        img = img_main.subsurface(200,200,200,200).convert_alpha()
+        img = pygame.transform.scale(img,(board.multiplier,board.multiplier))
+        board.img.append(img)
+        board.make_grid()
+
+    def make_grid():
+        w = board.cols*board.multiplier
+        h =board.rows*board.multiplier
+        board.grid = pygame.Surface((w,h))
+        for v_l in range(0,w,board.multiplier):
+            pygame.draw.line(board.grid,(255,255,255),(v_l,0),(v_l,h))
+        for h_l in range(0,h,board.multiplier):
+            pygame.draw.line(board.grid,(255,255,255),(0,h_l),(w,h_l))
+        pygame.draw.line(board.grid,(255,255,255),(0,h-1),(w,h-1))
+        pygame.draw.line(board.grid,(255,255,255),(w-1,0),(w-1,h-1))
     def print_surr(self): # prints the surrounding elements of all boxes
         for b in board.box_list:
             print("( %d %d )"%(b.row,b.col),"surr",[(temp.row,temp.col) for temp in b.surrounding])
@@ -71,7 +105,15 @@ class board:
             self.previous=self.running
     def run(self):
         self.update()
+        self.render()
         self.check_change()
+
+    def render(self):
+        board.w1.blit(board.grid,(0,0))
+        for a in self.box_list:
+            a.render()
+        for a in self.animations:
+            a.render()
 
     def update(self):
         self.running = False
