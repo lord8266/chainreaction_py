@@ -19,6 +19,10 @@ As soon as a player looses all their orbs they are out of the game.
 and prints them to **stdout**  
 
 #### Update
-*added some graphic*  
+*added all graphics*  
+*will add comments soon*  
 
-run `python3 chainreaction.py`
+##  
+
+**run** `python3 chainreaction.py`  
+**edit** `conf.py` to change setting  
