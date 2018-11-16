@@ -28,11 +28,10 @@ game.main_running =True
 
 def event_handle(pos):
     id = pos[0]//data["multiplier"] +data["cols"]*(pos[1]//data["multiplier"])
-    if not(game.accepting):# if animations are running dont take the event
+    if not(game.running):# if animations are running dont take the event
         if game.add_atom(id): # if not exploded
             game.cycle()
             game.print_holding()
-            print(game.count)
 
 
 while game.main_running:
