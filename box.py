@@ -105,7 +105,7 @@ class box:
         return ret
 
     def render(self):
-        if(self.owner!=None):
+        if(self.holding!=0):
             main_img = self.owner.img[self.holding-1]
             img = pygame.transform.rotate(main_img,self.angle)
             rect1,rect2 =img.get_rect(),main_img.get_rect()
