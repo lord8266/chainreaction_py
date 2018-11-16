@@ -24,7 +24,7 @@ class board:
         board.make_image()
         self.make_boxes()
         board.players = [ player.player(self,p) for p in data["players"] ]
-
+        self.running=False
         board.current = board.players[0]
         self.count=0
     def make_boxes(self):
@@ -88,12 +88,14 @@ class board:
             pygame.draw.line(board.grid,(255,255,255),(0,h_l),(w,h_l))
         pygame.draw.line(board.grid,(255,255,255),(0,h-1),(w,h-1))
         pygame.draw.line(board.grid,(255,255,255),(w-1,0),(w-1,h-1))
+
     def print_surr(self): # prints the surrounding elements of all boxes
         for b in board.box_list:
             print("( %d %d )"%(b.row,b.col),"surr",[(temp.row,temp.col) for temp in b.surrounding])
             # creates a list with tuples for row,col of each box
 
     def print_holding(self): # prints the current holding of all boxes
+
         print()
         for r in range(0,board.rows):
             for c in range(0,board.cols):
@@ -101,34 +103,38 @@ class board:
 
             print()
         print()
+
     def check_change(self):
         if self.previous!=self.running:
             self.print_holding()
-            self.run_check()
-            if self.running==0 and bool(self.animations)==0:
+            if not(self.running):
                 self.cycle()
-                print(self.count)
-
             self.previous=self.running
 
-    def run_check(self):
-        templ = self.players.copy()
-        for p in templ:
-            if len(p.boxes)==0:#if has no boxes
-                self.players.remove(p)
-        self.cycle(False)
-        if len(self.players)==1:
-            print(self.current.name,"wins")
-            self.main_running=False
-    def cycle(self,check=True):
-        if check:
-            self.count+=1
+
+    def cycle(self):
+        print("hi")
+        for a in self.players:
+            print(a.name,[b.pos for b in a.boxes])
+        print()
+        previous =board.current
+        self.count+=1
         board.current=board.players[self.count%len(board.players)]
+        print("current",board.current.name)
+        if self.count>len(board.players):
+            while len(board.current.boxes)==0:
+                print("cycling ",board.current.name)
+                self.count+=1
+                board.current=board.players[self.count%len(board.players)]
+        print("current",board.current.name)
+        if previous==board.current:
+            self.main_running=False
 
 
     def run(self):
         self.update()
         self.render()
+        self.running = bool(self.animations) or self.running
         self.check_change()
 
     def render(self):
@@ -154,7 +160,7 @@ class board:
 
         for a in self.animations:# for each animation in animations
             a.update() # update animations
-        self.accepting = bool(self.animations)
+
 
 
 
