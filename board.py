@@ -25,6 +25,7 @@ class board:
         self.make_boxes()
         board.players = [ player.player(self,p) for p in data["players"] ]
         self.running=False
+        self.alive_players = board.players
         board.current = board.players[0]
         self.count=0
     def make_boxes(self):
@@ -117,24 +118,27 @@ class board:
         for a in self.players:
             print(a.name,[b.pos for b in a.boxes])
         print()
-        previous =board.current
+
         self.count+=1
         board.current=board.players[self.count%len(board.players)]
         print("current",board.current.name)
-        if self.count>len(board.players):
-            while len(board.current.boxes)==0:
-                print("cycling ",board.current.name)
-                self.count+=1
-                board.current=board.players[self.count%len(board.players)]
+
+        while board.current.alive==False:
+            print("cycling ",board.current.name)
+            self.count+=1
+            board.current=board.players[self.count%len(board.players)]
         print("current",board.current.name)
-        if previous==board.current:
-            self.main_running=False
 
 
     def run(self):
         self.update()
         self.render()
         self.running = bool(self.animations) or self.running
+        self.alive_players =[ a for a in board.players if a.alive]
+        
+        if len(self.alive_players)==1:
+            print("done")
+            self.main_running=False
         self.check_change()
 
     def render(self):

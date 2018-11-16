@@ -9,7 +9,7 @@ class player:
         self.img = [player.change_color(i,self.color) for i in main_board.img]
         self.grid = player.change_color(main_board.grid,data["color"])
         self.boxes =[]
-
+        self.alive=True
     def change_color(surface,color):
         w,h = surface.get_width(),surface.get_height()
         surface.lock()
@@ -30,7 +30,8 @@ class player:
     def add_box(self,box):
         self.boxes.append(box)
         box.owner=self
-
+        self.alive =bool(self.boxes)
     def rem_box(self,box):
         self.boxes.remove(box)
         box.owner=None
+        self.alive =bool(self.boxes)
