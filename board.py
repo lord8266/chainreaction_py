@@ -94,8 +94,9 @@ class board:
 
     def user_event(self,id):
         if not(self.running):
-            self.add_atom(id)
-            self.check_end=True
+            
+            if self.add_atom(id):
+                self.check_end=True
     def print_surr(self): # prints the surrounding elements of all boxes
         for b in board.box_list:
             print("( %d %d )"%(b.row,b.col),"surr",[(temp.row,temp.col) for temp in b.surrounding])
@@ -198,8 +199,7 @@ class board:
         if ret:#if passed the filter
             temp_box.add_atom()
 
-        if temp_box.holding==0:# if it exploded
-            ret=False
+
         # as of now im calling directly but then this will
         # be a much more complex function later
         return ret
