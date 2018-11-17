@@ -22,7 +22,7 @@ class animation:
         self.box_from = box_from
         self.box_to = box_to
         self.owner =box_from.owner
-        animation.main_board.animation_owners.append(self)
+        animation.main_board.animation_owners.append(self.owner)
     def render(self):
         main_board=animation.main_board
         main_board.w1.blit(self.owner.img[3],(self.curr_loc["x"],self.curr_loc["y"]))

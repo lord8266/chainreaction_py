@@ -94,7 +94,7 @@ class board:
 
     def user_event(self,id):
         if not(self.running):
-            
+
             if self.add_atom(id):
                 self.check_end=True
     def print_surr(self): # prints the surrounding elements of all boxes
@@ -136,7 +136,7 @@ class board:
         self.update()
         self.render()
         self.running = bool(self.animations) or self.running
-        self.alive_players =[ a for a in board.players if a.alive and a not in self.animation_owners ]
+        self.alive_players =[ a for a in board.players if a.alive or a in self.animation_owners ]
 
         if len(self.alive_players)==1:
             self.main_running=False
