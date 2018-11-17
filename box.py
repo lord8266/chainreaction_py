@@ -95,7 +95,7 @@ class box:
             temp.owner.add_box(self)
             #self.owner.add_box(self) # add this box to owner
             self.add_atom() # add the atom in the box
-
+            self.main_board.animation_owners.remove(temp)#remove the animation from list
             self.events.pop(0) # pop the first event which came
             # if there are more then handle them in the next cycle
             # not required but i want to do one step at a time

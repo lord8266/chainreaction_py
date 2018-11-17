@@ -28,6 +28,8 @@ class board:
         self.alive_players = board.players
         board.current = board.players[0]
         self.count=0
+        self.check_end=False
+        self.animation_owners=[]
     def make_boxes(self):
 
         for r in range(0,board.rows):
@@ -90,6 +92,10 @@ class board:
         pygame.draw.line(board.grid,(255,255,255),(0,h-1),(w,h-1))
         pygame.draw.line(board.grid,(255,255,255),(w-1,0),(w-1,h-1))
 
+    def user_event(self,id):
+        if not(self.running):
+            self.add_atom(id)
+            self.check_end=True
     def print_surr(self): # prints the surrounding elements of all boxes
         for b in board.box_list:
             print("( %d %d )"%(b.row,b.col),"surr",[(temp.row,temp.col) for temp in b.surrounding])
@@ -106,38 +112,32 @@ class board:
         print()
 
     def check_change(self):
-        if self.previous!=self.running:
-            self.print_holding()
+        if self.check_end:
             if not(self.running):
                 self.cycle()
-            self.previous=self.running
+                self.check_end=False
 
 
     def cycle(self):
-        print("hi")
-        for a in self.players:
-            print(a.name,[b.pos for b in a.boxes])
-        print()
+
 
         self.count+=1
         board.current=board.players[self.count%len(board.players)]
-        print("current",board.current.name)
+
 
         while board.current.alive==False:
-            print("cycling ",board.current.name)
             self.count+=1
             board.current=board.players[self.count%len(board.players)]
-        print("current",board.current.name)
+
 
 
     def run(self):
         self.update()
         self.render()
         self.running = bool(self.animations) or self.running
-        self.alive_players =[ a for a in board.players if a.alive]
-        
+        self.alive_players =[ a for a in board.players if a.alive and a not in self.animation_owners ]
+
         if len(self.alive_players)==1:
-            print("done")
             self.main_running=False
         self.check_change()
 
