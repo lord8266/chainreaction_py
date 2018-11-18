@@ -41,7 +41,7 @@ while game.main_running:
     game.run()
 
     pygame.display.flip()
-    clock.tick(60)
+    clock.tick(data["fps"])
     if game.reset:
         game.reset_all()
 

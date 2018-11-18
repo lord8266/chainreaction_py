@@ -13,7 +13,7 @@ class box:
         self.angle=0
         self.owner=None
         self.rotate_dir= random.choice([1,-1])
-        self.speed =random.randrange(6,9)
+        self.speed =random.randrange(*self.main_board.rotation_speed)
     def setup(self,row,col):
         # initialize current box row and col
         self.row = row
@@ -24,55 +24,46 @@ class box:
         if col==0 and row==0:
             # surrounding box -> below ,front
             self.surrounding.append((row+1,col))
-            self.surrounding.append((row
-            ,col+1))
-            self.max=2
+            self.surrounding.append((row,col+1))
 
         elif col==box.main_board.cols-1 and row==0:
             # surrounding box -> below ,behind
             self.surrounding.append((row+1,col))
             self.surrounding.append((row,col-1))
-            self.max=2
 
         elif col==0 and row==box.main_board.rows-1:
             # surrounding box ->  front ,above
             self.surrounding.append((row,col+1))
             self.surrounding.append((row-1,col))
-            self.max=2
 
         elif col==box.main_board.cols-1 and row==box.main_board.rows-1:
             # surrounding box -> above , behind
             self.surrounding.append((row-1,col))
             self.surrounding.append((row,col-1))
-            self.max=2
 
         elif col==0:
             # surrounding box -> above , below ,front
             self.surrounding.append((row-1,col))
             self.surrounding.append((row+1,col))
             self.surrounding.append((row,col+1))
-            self.max=3
 
         elif row==0:
             # surrounding box ->  front, below ,behind
             self.surrounding.append((row,col+1))
             self.surrounding.append((row+1,col))
             self.surrounding.append((row,col-1))
-            self.max=3
 
         elif row==box.main_board.rows-1:
             # surrounding box -> front,above,behind
             self.surrounding.append((row,col+1))
             self.surrounding.append((row-1,col))
             self.surrounding.append((row,col-1))
-            self.max=3
 
         elif col==box.main_board.cols-1:
             # surrounding box -> behind , above, below
             self.surrounding.append((row,col-1))
             self.surrounding.append((row-1,col))
             self.surrounding.append((row+1,col))
-            self.max=3
 
         else:
             # surrounding box -> front ,below, above, behind
@@ -80,7 +71,8 @@ class box:
             self.surrounding.append((row+1,col))
             self.surrounding.append((row-1,col))
             self.surrounding.append((row,col-1))
-            self.max=4
+
+        self.max=len(self.surrounding)
 
     def update(self):
         ret = False
