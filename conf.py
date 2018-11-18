@@ -1,13 +1,16 @@
 data = {
-    "rows":5,
-    "cols":5,
-    "multiplier":100,
-    "speed":8,
+    "rows":7,
+    "cols":7,
+    "multiplier":120,#size of each box
+    "speed":5, #speed of box to box movement
     "icon_loc":"assets/atoms_c.ico",
     "img_loc":"assets/atoms.png",
-    "title":"chainreaction2d"
+    "title":"chainreaction2d",
+    "fps":100,
+    "rotation_speed":(5,7) #range of values for speed of rotation
 }
 
+#add how many players you want in this format
 players = [# added random colors
            {"name":"red","color":(255,0,0)},
            {"name":"blue","color":(0,0,255)},
