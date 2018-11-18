@@ -12,7 +12,7 @@ class player:
         self.alive=True
     def change_color(surface,color):
         w,h = surface.get_width(),surface.get_height()
-        surface.lock()
+
         temp_surf = surface.copy()
         for i in range(0,h):
             for j in range(0,w):
@@ -21,8 +21,7 @@ class player:
                 a.g=color[1]
                 a.b=color[2]
                 temp_surf.set_at((j,i),a)
-        temp_surf.unlock()
-        surface.unlock()
+        
         return temp_surf
 
 

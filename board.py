@@ -29,6 +29,7 @@ class board:
         board.current = board.players[0]
         self.count=0
         self.check_end=False
+        self.reset=False
         self.animation_owners=[]
     def make_boxes(self):
 
@@ -52,13 +53,6 @@ class board:
             temp = map(temp_f,b.surrounding)
             b.surrounding = list(temp)
 
-
-    def print_max(self): # prints the maximum allowable atoms in each box
-        for r in range(0,board.rows):
-            for c in range(0,board.cols):
-                print(board.box_list[r*board.cols+c].max," " ,end="")
-
-            print()
 
     def make_image():
         board.img=[]
@@ -97,20 +91,6 @@ class board:
 
             if self.add_atom(id):
                 self.check_end=True
-    def print_surr(self): # prints the surrounding elements of all boxes
-        for b in board.box_list:
-            print("( %d %d )"%(b.row,b.col),"surr",[(temp.row,temp.col) for temp in b.surrounding])
-            # creates a list with tuples for row,col of each box
-
-    def print_holding(self): # prints the current holding of all boxes
-
-        print()
-        for r in range(0,board.rows):
-            for c in range(0,board.cols):
-                print(board.box_list[r*board.cols+c].holding,end=" ")
-
-            print()
-        print()
 
     def check_change(self):
         if self.check_end:
@@ -139,8 +119,24 @@ class board:
         self.alive_players =[ a for a in board.players if a.alive or a in self.animation_owners ]
 
         if len(self.alive_players)==1:
-            self.main_running=False
+            self.reset=True
+            print(self.current.name,"won")
         self.check_change()
+
+    def reset_all(self):
+        self.animations.clear()
+        self.animation_owners.clear()
+        for a in self.box_list:
+            a.events.clear()
+            a.holding=0
+            a.owner=None
+        for a in self.players:
+            a.boxes.clear()
+            a.alive=True
+        self.count =0
+        board.current=self.players[self.count]
+        self.reset=False
+        self.check_end=False
 
     def render(self):
         if bool(board.animations):
@@ -165,9 +161,6 @@ class board:
 
         for a in self.animations:# for each animation in animations
             a.update() # update animations
-
-
-
 
 
     def remove_animation(self,anim):
