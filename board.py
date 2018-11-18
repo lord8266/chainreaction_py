@@ -15,6 +15,7 @@ class board:
         board.speed = data["speed"]
         board.multiplier = data["multiplier"]
         board.img_loc = data["img_loc"]
+        board.rotation_speed=data["rotation_speed"]
         animation.multiplier = board.multiplier
         board.w1 = data["w1"]
         board.box_list =[]
