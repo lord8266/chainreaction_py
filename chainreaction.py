@@ -43,4 +43,5 @@ while game.main_running:
     pygame.display.flip()
     clock.tick(60)
 
+print(game.current.name,"won")
 pygame.quit()
