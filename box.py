@@ -84,9 +84,10 @@ class box:
             self.color = temp.box_from.color
             if self.owner!=None:
                 self.owner.rem_box(self)
-            temp.owner.add_box(self)
             #self.owner.add_box(self) # add this box to owner
-            self.add_atom() # add the atom in the box
+             # add the atom in the box
+            temp.owner.add_box(self)
+            self.add_atom()
             self.main_board.animation_owners.remove(temp.owner)#remove the animation from list
             self.events.pop(0) # pop the first event which came
             # if there are more then handle them in the next cycle
@@ -111,13 +112,15 @@ class box:
         self.holding+=1 # increment holding
         # if holding is more than max explode
         if self.holding==self.max:
+
             self.explode()
 
     def explode(self):
-        self.holding =0 #reset box
-        #self.owner.remove(self) # remove this box from the owner
+         #reset box
         for b in self.surrounding:
             box.main_board.animations.add(animation(self,b,self.main_board.speed)) # here need to create animation
         self.owner.rem_box(self)
         self.color = None # just to complete
+        self.holding =0
+
         # color of the box is reset just syas it has no color

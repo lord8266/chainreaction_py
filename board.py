@@ -14,24 +14,59 @@ class board:
         board.cols =data["cols"]
         board.speed = data["speed"]
         board.multiplier = data["multiplier"]
+        self.total_box_width = data["cols"]*data["multiplier"]
+        self.total_box_height= data["rows"]*data["multiplier"]
+
         board.img_loc = data["img_loc"]
         board.rotation_speed=data["rotation_speed"]
         animation.multiplier = board.multiplier
-        board.w1 = data["w1"]
         board.box_list =[]
         board.animations = set() # it is a set
         board.remove_cycle=set()
         board.previous = False
-        board.make_image()
-        self.make_boxes()
-        board.players = [ player.player(self,p) for p in data["players"] ]
         self.running=False
-        self.alive_players = board.players
-        board.current = board.players[0]
+        self.update_disp=False
         self.count=0
         self.check_end=False
         self.reset=False
         self.animation_owners=[]
+        self.init_window()
+        board.make_image()
+        self.make_boxes()
+        self.players = []
+        i=0
+        for p in data["players"]:
+            self.players.append(player.player(self,p,i))
+            i+=1
+        self.alive_players = self.players
+
+        self.current = self.players[0]
+
+    def init_window(self):
+        self.update_dimensions()
+        self.w1 = pygame.display.set_mode((self.total_width,self.total_height))
+        self.icon=pygame.image.load(self.data["icon_loc"])
+        pygame.display.set_icon(self.icon)
+        pygame.display.set_caption(self.data["title"])
+
+    def update_dimensions(self):
+        import functools
+        b=len(self.data["players"])
+        if b>self.rows:
+            print("not possible")
+            return
+        def f_temp(x,y):
+            print(x["name"])
+            w1 = len(x["name"])
+            w2=len(y["name"])
+            return w1<w2 and y or x
+
+        max_length_toincrease =len((functools.reduce(f_temp,self.data["players"]))["name"])*60
+        #get the maximum width to be increased
+        print(max_length_toincrease)
+        self.total_width=self.total_box_width+max_length_toincrease
+        self.total_height=self.total_box_height
+
     def make_boxes(self):
 
         for r in range(0,board.rows):
@@ -104,25 +139,35 @@ class board:
 
 
         self.count+=1
-        board.current=board.players[self.count%len(board.players)]
+        self.current=self.players[self.count%len(self.players)]
 
 
-        while board.current.alive==False:
+        while self.current.alive==False:
             self.count+=1
-            board.current=board.players[self.count%len(board.players)]
+            self.current=self.players[self.count%len(self.players)]
 
 
 
     def run(self):
+        self.w1.fill((0,0,0))
         self.update()
         self.render()
         self.running = bool(self.animations) or self.running
-        self.alive_players =[ a for a in board.players if a.alive or a in self.animation_owners ]
+        self.alive_players =[ a for a in self.players if a.alive or a in self.animation_owners ]
 
         if len(self.alive_players)==1:
             self.reset=True
             print(self.current.name,"won")
+
+        for a in self.players:
+            a.render()
         self.check_change()
+
+        if self.update_disp:
+            for a in self.players:
+                a.update_holding()
+            self.update_disp=False
+
 
     def reset_all(self):
         self.animations.clear()
@@ -134,16 +179,18 @@ class board:
         for a in self.players:
             a.boxes.clear()
             a.alive=True
+            a.holding=0
+            a.update_holding()
         self.count =0
-        board.current=self.players[self.count]
+        self.current=self.players[self.count]
         self.reset=False
         self.check_end=False
 
     def render(self):
         if bool(board.animations):
-            board.w1.blit(board.grid,(0,0))
+            self.w1.blit(board.grid,(0,0))
         else:
-            board.w1.blit(board.current.grid,(0,0))
+            self.w1.blit(self.current.grid,(0,0))
         for a in self.box_list:
             a.render()
         for a in self.animations:
@@ -184,15 +231,16 @@ class board:
         ret=True
         temp_box = board.box_list[index]
         if temp_box.owner!=None:
-            if temp_box.owner!=board.current:
+            if temp_box.owner!=self.current:
                 pass
                 ret=False
         else:
-            board.current.add_box(temp_box)
+            self.current.add_box(temp_box)
 
         if ret:#if passed the filter
             temp_box.add_atom()
-
+            if temp_box.holding!=0:
+                self.current.add_box(temp_box)
 
         # as of now im calling directly but then this will
         # be a much more complex function later

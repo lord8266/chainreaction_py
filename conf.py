@@ -2,12 +2,12 @@ data = {
     "rows":7,
     "cols":7,
     "multiplier":120,#size of each box
-    "speed":5, #speed of box to box movement
+    "speed":9, #speed of box to box movement
     "icon_loc":"assets/atoms_c.ico",
     "img_loc":"assets/atoms.png",
     "title":"chainreaction2d",
-    "fps":100,
-    "rotation_speed":(5,7) #range of values for speed of rotation
+    "fps":75,
+    "rotation_speed":(10,13) #range of values for speed of rotation
 }
 
 #add how many players you want in this format

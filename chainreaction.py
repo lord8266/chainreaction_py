@@ -1,8 +1,10 @@
 
 # doesnt do anything as of now just sets up the boxes and connecting surrounding
 
-from board import board
 import pygame
+pygame.init()
+pygame.font.init()
+from board import board
 import conf
 data=conf.data
 # look at conf.py
@@ -11,13 +13,9 @@ data=conf.data
 # each box is a square
 
 
-pygame.init()
-w1 = pygame.display.set_mode((data["cols"]*data["multiplier"],data["rows"]*data["multiplier"]))
-icon=pygame.image.load(data["icon_loc"])
-pygame.display.set_icon(icon)
-pygame.display.set_caption(data["title"])
 
-data["w1"]=w1
+
+
 clock = pygame.time.Clock()
 
 game = board(data)
@@ -37,7 +35,7 @@ while game.main_running:
             game.main_running=False
         elif e.type==pygame.MOUSEBUTTONDOWN:
             event_handle(e.pos)
-    w1.fill((0,0,0))
+
     game.run()
 
     pygame.display.flip()
