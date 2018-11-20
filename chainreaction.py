@@ -25,8 +25,8 @@ print("start\n")
 game.main_running =True
 
 def event_handle(pos):
-    id = pos[0]//data["multiplier"] +data["cols"]*(pos[1]//data["multiplier"])
-    game.user_event(id)
+    print(pos)
+    game.user_event(pos)
 
 
 while game.main_running:

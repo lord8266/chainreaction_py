@@ -1,5 +1,8 @@
 import pygame
 import text_render
+
+
+
 class player:
     def __init__(self,main_board,data,i):
         self.main_board=main_board
@@ -10,12 +13,11 @@ class player:
         self.grid = player.change_color(main_board.grid,data["color"])
         self.boxes =set()
         self.alive=True
-        self.name_surface =  text_render.create_text(self.name,self.color)
+        self.name_surface = text_render.create_text(self.name,self.color)
         self.holding=0
-        text_render.create_text(self.name,self.color)
         self.pos = (main_board.total_box_width+main_board.multiplier/4,main_board.multiplier*(i+0.33))
         self.update_holding()
-        self.holding_pos=(self.pos[0]+self.holding_text.get_width()*len(self.name)+10,self.pos[1])
+        self.holding_pos=(self.pos[0]+self.name_surface.get_width()+10,self.pos[1])
 
     def change_color(surface,color):
         w,h = surface.get_width(),surface.get_height()

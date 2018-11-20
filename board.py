@@ -4,7 +4,7 @@ from box import box
 from animation import animation
 import pygame
 import player
-
+from end_game import end_game
 class board:
     #construct with rows ,cols and initialize box_list to empty list
     def __init__(self,data):
@@ -15,8 +15,8 @@ class board:
         board.speed = data["speed"]
         board.multiplier = data["multiplier"]
         self.total_box_width = data["cols"]*data["multiplier"]
-        self.total_box_height= data["rows"]*data["multiplier"]
-
+        self.total_box_height= self.total_height=data["rows"]*data["multiplier"]
+        self.total_width=self.total_box_width+350
         board.img_loc = data["img_loc"]
         board.rotation_speed=data["rotation_speed"]
         animation.multiplier = board.multiplier
@@ -29,11 +29,14 @@ class board:
         self.count=0
         self.check_end=False
         self.reset=False
+        self.state=1
+        self.end_setup=False
         self.animation_owners=[]
         self.init_window()
         board.make_image()
         self.make_boxes()
         self.players = []
+
         i=0
         for p in data["players"]:
             self.players.append(player.player(self,p,i))
@@ -41,31 +44,12 @@ class board:
         self.alive_players = self.players
 
         self.current = self.players[0]
-
+        self.end_game=end_game(self)
     def init_window(self):
-        self.update_dimensions()
         self.w1 = pygame.display.set_mode((self.total_width,self.total_height))
         self.icon=pygame.image.load(self.data["icon_loc"])
         pygame.display.set_icon(self.icon)
         pygame.display.set_caption(self.data["title"])
-
-    def update_dimensions(self):
-        import functools
-        b=len(self.data["players"])
-        if b>self.rows:
-            print("not possible")
-            return
-        def f_temp(x,y):
-            print(x["name"])
-            w1 = len(x["name"])
-            w2=len(y["name"])
-            return w1<w2 and y or x
-
-        max_length_toincrease =len((functools.reduce(f_temp,self.data["players"]))["name"])*60
-        #get the maximum width to be increased
-        print(max_length_toincrease)
-        self.total_width=self.total_box_width+max_length_toincrease
-        self.total_height=self.total_box_height
 
     def make_boxes(self):
 
@@ -122,11 +106,18 @@ class board:
         pygame.draw.line(board.grid,(255,255,255),(0,h-1),(w,h-1))
         pygame.draw.line(board.grid,(255,255,255),(w-1,0),(w-1,h-1))
 
-    def user_event(self,id):
-        if not(self.running):
+    def user_event(self,pos):
+        if self.state==1:
+            if pos[0]>self.total_box_width or pos[1]>self.total_box_height:
+                return
+            id = pos[0]//self.multiplier +self.cols*(pos[1]//self.multiplier)
+            if not(self.running):
+                if self.add_atom(id):
+                    self.check_end=True
 
-            if self.add_atom(id):
-                self.check_end=True
+
+        elif self.state==2:
+            self.end_game.update(pos)
 
     def check_change(self):
         if self.check_end:
@@ -149,24 +140,32 @@ class board:
 
 
     def run(self):
+
         self.w1.fill((0,0,0))
-        self.update()
-        self.render()
-        self.running = bool(self.animations) or self.running
-        self.alive_players =[ a for a in self.players if a.alive or a in self.animation_owners ]
+        if self.state==1:
+            self.update()
+            self.render()
+            self.running = bool(self.animations) or self.running
+            self.alive_players =[ a for a in self.players if a.alive or a in self.animation_owners ]
 
-        if len(self.alive_players)==1:
-            self.reset=True
-            print(self.current.name,"won")
+            if len(self.alive_players)==1:
+                self.state=2
+                print(self.current.name,"won")
 
-        for a in self.players:
-            a.render()
-        self.check_change()
-
-        if self.update_disp:
             for a in self.players:
-                a.update_holding()
-            self.update_disp=False
+                a.render()
+                self.check_change()
+
+            if self.update_disp:
+                for a in self.players:
+                    a.update_holding()
+                self.update_disp=False
+
+        if self.state==2:
+            if self.end_setup==False:
+                self.end_game.setup()
+            self.end_game.render()
+            #self.main_running=False
 
 
     def reset_all(self):
