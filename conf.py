@@ -1,7 +1,7 @@
 data = {
     "rows":7,
     "cols":7,
-    "multiplier":150,#size of each box
+    "multiplier":75,#size of each box
     "speed":6, #speed of box to box movement
     "icon_loc":"assets/atoms_c.ico",
     "img_loc":"assets/atoms.png",
@@ -15,8 +15,8 @@ players = [# added random colors
            {"name":"red","color":(255,0,0)},
            {"name":"blue","color":(0,0,255)},
            {"name":"green","color":(0,255,0)},
-           {"name":"yellow","color":(255,255,0)},
-           {"name":"orange","color":(255,165,0)},
-           {"name":"turquoise","color":(64,224,208)}
+           #{"name":"yellow","color":(255,255,0)},
+           #{"name":"orange","color":(255,165,0)},
+           #{"name":"turquoise","color":(64,224,208)}
           ]
 data["players"] =players

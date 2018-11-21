@@ -27,7 +27,7 @@ class board:
         self.update_disp=False
         self.count=0
         self.check_end=False
-        
+
         self.state=1
         self.end_setup=False
         self.animation_owners=[]
@@ -126,7 +126,7 @@ class board:
             if not(self.running):
                 self.cycle()
                 self.check_end=False
-
+                
 
     def cycle(self):
 
@@ -152,7 +152,7 @@ class board:
 
             if len(self.alive_players)==1:
                 self.state=2
-                print(self.current.name,"won")
+
 
             for a in self.players:
                 a.render()
@@ -232,15 +232,13 @@ class board:
         temp_box = board.box_list[index]
         if temp_box.owner!=None:
             if temp_box.owner!=self.current:
-                pass
                 ret=False
         else:
             self.current.add_box(temp_box)
 
         if ret:#if passed the filter
             temp_box.add_atom()
-            if temp_box.holding!=0:
-                self.current.add_box(temp_box)
+
 
         # as of now im calling directly but then this will
         # be a much more complex function later
