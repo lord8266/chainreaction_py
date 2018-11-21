@@ -25,14 +25,14 @@ class end_game:
         self.main_board.end_setup=True
 
     def update(self,pos):
-        print(self.end_rect,pos)
+        
         if self.again_rect.collidepoint(pos):# if user pressed that button
             self.main_board.reset_all()
             self.main_board.state=1
 
         elif self.end_rect.collidepoint(pos):
             self.main_board.main_running=False
-            print("yes")
+
 
     def render(self):
         self.main_board.w1.blit(self.again,self.again_rect)

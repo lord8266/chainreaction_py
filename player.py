@@ -15,7 +15,7 @@ class player:
         self.alive=True
         self.name_surface = text_render.create_text(self.name,self.color)
         self.holding=0
-        self.pos = (main_board.total_box_width+main_board.multiplier/4,main_board.multiplier*(i+0.33))
+        self.pos = (main_board.total_box_width+main_board.multiplier/4,main_board.multiplier*(i+0.5)-self.name_surface.get_height()/2)
         self.update_holding()
         self.holding_pos=(self.pos[0]+self.name_surface.get_width()+10,self.pos[1])
 
@@ -24,6 +24,7 @@ class player:
 
         temp_surf = surface.copy()
         pixels_array=pygame.surfarray.pixels3d(temp_surf)
+        # directly refers to pixel value
         for rows in pixels_array:
             for col in rows:
                 col[0] =color[0]

@@ -19,16 +19,15 @@ class board:
         self.total_width=self.total_box_width+350
         board.img_loc = data["img_loc"]
         board.rotation_speed=data["rotation_speed"]
-        animation.multiplier = board.multiplier
+        animation.multiplier = board.multiplier #setup the same on animation side
         board.box_list =[]
         board.animations = set() # it is a set
         board.remove_cycle=set()
-        board.previous = False
         self.running=False
         self.update_disp=False
         self.count=0
         self.check_end=False
-        self.reset=False
+        
         self.state=1
         self.end_setup=False
         self.animation_owners=[]
@@ -95,7 +94,7 @@ class board:
         board.img.append(img)
         board.make_grid()
 
-        
+
 
 
     def make_grid():
@@ -185,7 +184,6 @@ class board:
             a.update_holding()
         self.count =0
         self.current=self.players[self.count]
-        self.reset=False
         self.check_end=False
 
     def render(self):

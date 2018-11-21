@@ -25,7 +25,7 @@ print("start\n")
 game.main_running =True
 
 def event_handle(pos):
-    print(pos)
+
     game.user_event(pos)
 
 
@@ -40,8 +40,6 @@ while game.main_running:
 
     pygame.display.flip()
     clock.tick(data["fps"])
-    if game.reset:
-        game.reset_all()
 
 
 pygame.quit()
