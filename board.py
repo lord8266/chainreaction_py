@@ -37,14 +37,14 @@ class board:
         self.make_boxes()
         self.players = []
 
-        i=0
+        i=0# for location fo ingame count
         for p in data["players"]:
             self.players.append(player.player(self,p,i))
             i+=1
         self.alive_players = self.players
-
         self.current = self.players[0]
         self.end_game=end_game(self)
+
     def init_window(self):
         self.w1 = pygame.display.set_mode((self.total_width,self.total_height))
         self.icon=pygame.image.load(self.data["icon_loc"])
@@ -94,6 +94,9 @@ class board:
         img = pygame.transform.scale(img,(board.multiplier,board.multiplier))
         board.img.append(img)
         board.make_grid()
+
+        
+
 
     def make_grid():
         w = board.cols*board.multiplier

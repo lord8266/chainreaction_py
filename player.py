@@ -23,13 +23,12 @@ class player:
         w,h = surface.get_width(),surface.get_height()
 
         temp_surf = surface.copy()
-        for i in range(0,h):
-            for j in range(0,w):
-                a=temp_surf.get_at((j,i))
-                a.r=color[0]
-                a.g=color[1]
-                a.b=color[2]
-                temp_surf.set_at((j,i),a)
+        pixels_array=pygame.surfarray.pixels3d(temp_surf)
+        for rows in pixels_array:
+            for col in rows:
+                col[0] =color[0]
+                col[1]=color[1]
+                col[2]=color[2]
 
         return temp_surf
 

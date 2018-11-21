@@ -16,7 +16,7 @@ players = [# added random colors
            {"name":"blue","color":(0,0,255)},
            {"name":"green","color":(0,255,0)},
            {"name":"yellow","color":(255,255,0)},
-           #{"name":"orange","color":(255,165,0)},
-           #{"name":"turquoise","color":(64,224,208)}
+           {"name":"orange","color":(255,165,0)},
+           {"name":"turquoise","color":(64,224,208)}
           ]
 data["players"] =players
