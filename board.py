@@ -126,7 +126,7 @@ class board:
             if not(self.running):
                 self.cycle()
                 self.check_end=False
-                
+
 
     def cycle(self):
 
@@ -156,7 +156,7 @@ class board:
 
             for a in self.players:
                 a.render()
-                self.check_change()
+            self.check_change()
 
             if self.update_disp:
                 for a in self.players:

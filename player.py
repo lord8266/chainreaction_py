@@ -14,7 +14,6 @@ class player:
         self.boxes =set()
         self.alive=True
         self.name_surface = text_render.create_text(self.name,self.color)
-        self.holding=0
         self.pos = (main_board.total_box_width+main_board.multiplier/4,main_board.multiplier*(i+0.5)-self.name_surface.get_height()/2)
         self.update_holding()
         self.holding_pos=(self.pos[0]+self.name_surface.get_width()+10,self.pos[1])
@@ -39,13 +38,11 @@ class player:
         self.boxes.add(box)
         box.owner=self
         self.alive =True
-        self.holding+=box.holding
         self.main_board.update_disp=True
     def rem_box(self,box):
         self.boxes.remove(box)
         box.owner=None
         self.alive =bool(self.boxes)
-        self.holding-=box.holding
         self.main_board.update_disp=True
     def render(self):
         self.main_board.w1.blit(self.name_surface,self.pos)

@@ -1,7 +1,7 @@
 data = {
     "rows":7,
     "cols":7,
-    "multiplier":75,#size of each box
+    "multiplier":120,#size of each box
     "speed":6, #speed of box to box movement
     "icon_loc":"assets/atoms_c.ico",
     "img_loc":"assets/atoms.png",

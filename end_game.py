@@ -22,7 +22,7 @@ class end_game:
         self.winner = self.main_board.current.name+" "+"Won !"
         self.winner=text_render.create_text(self.winner,self.main_board.current.color)
         self.winner_pos=self.main_board.total_width/2-self.winner.get_width()/2,self.main_board.total_height/6
-        self.main_board.end_setup=True
+        self.main_board.end_setup=False
 
     def update(self,pos):
 
